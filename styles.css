@@ -11,6 +11,27 @@
 html {
     height: auto;
     min-height: 100%;
+    overflow-x: hidden;
+}
+
+html.lenis {
+    height: auto;
+}
+
+.lenis.lenis-smooth {
+    scroll-behavior: auto;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+    overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+    overflow: hidden;
+}
+
+.lenis.lenis-scrolling iframe {
+    pointer-events: none;
 }
 
 body {
@@ -26,6 +47,58 @@ body {
     height: auto;
     overflow-x: hidden;
 }
+
+/* Custom Editorial Cursor */
+.custom-cursor {
+    position: fixed;
+    width: 18px;
+    height: 18px;
+    border: 1.5px solid rgba(91, 58, 41, 0.6);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transition: width 0.2s ease, height 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
+    opacity: 1;
+    background-color: rgba(91, 58, 41, 0.08);
+    will-change: transform;
+}
+
+.custom-cursor::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 3px;
+    height: 3px;
+    background-color: rgba(91, 58, 41, 0.9);
+    border-radius: 50%;
+    transition: width 0.2s ease, height 0.2s ease;
+}
+
+.custom-cursor.hover {
+    width: 32px;
+    height: 32px;
+    border-color: rgba(91, 58, 41, 0.8);
+    background-color: rgba(91, 58, 41, 0.15);
+}
+
+.custom-cursor.hover::before {
+    width: 4px;
+    height: 4px;
+}
+
+.custom-cursor.click {
+    width: 14px;
+    height: 14px;
+}
+
+.custom-cursor.click::before {
+    width: 2px;
+    height: 2px;
+}
+
+/* Smooth Scroll Container - Removed, handled by Lenis */
 
 body::before {
     content: '';
@@ -1609,6 +1682,7 @@ body > * {
     border: 3px double #5b3a29;
     box-shadow: 2px 2px 0 rgba(91, 58, 41, 0.15);
     overflow: hidden;
+    pointer-events: auto;
 }
 
 .music-stamp-overlay {
@@ -1623,6 +1697,7 @@ body > * {
         rgba(214, 208, 197, 0.90) 100%
     );
     z-index: 1;
+    pointer-events: none;
 }
 
 .music-stamp-content {
@@ -1631,6 +1706,7 @@ body > * {
     padding: 22px 24px;
     display: flex;
     flex-direction: column;
+    pointer-events: auto;
 }
 
 /* Header with Label and Archive ID */
@@ -1728,6 +1804,9 @@ body > * {
     justify-content: center;
     gap: 8px;
     margin-bottom: 14px;
+    pointer-events: auto;
+    position: relative;
+    z-index: 10;
 }
 
 .audio-control:hover {

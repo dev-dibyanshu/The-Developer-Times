@@ -12,21 +12,7 @@ function setCurrentDate() {
     dateElement.textContent = formattedDate;
 }
 
-// Add smooth scroll behavior for any internal links
-function initSmoothScroll() {
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
-            if (target) {
-                target.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                });
-            }
-        });
-    });
-}
+
 
 // Add reading progress indicator
 function createReadingProgress() {
@@ -277,17 +263,30 @@ function addWordCount() {
 function initAudioPlayer() {
     const audioControl = document.getElementById('audioControl');
     const musicPlayer = document.getElementById('musicPlayer');
+    
+    if (!audioControl || !musicPlayer) {
+        return;
+    }
+    
     const controlIcon = audioControl.querySelector('.control-icon');
     const controlText = audioControl.querySelector('.control-text');
     
-    if (!audioControl || !musicPlayer) return;
+    if (!controlIcon || !controlText) {
+        return;
+    }
     
-    audioControl.addEventListener('click', () => {
+    audioControl.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        
         if (musicPlayer.paused) {
-            musicPlayer.play();
-            controlIcon.textContent = '⏸';
-            controlText.textContent = 'PAUSE RECORDING';
-            audioControl.classList.add('playing');
+            musicPlayer.play().then(() => {
+                controlIcon.textContent = '⏸';
+                controlText.textContent = 'PAUSE RECORDING';
+                audioControl.classList.add('playing');
+            }).catch(err => {
+                console.error('Audio play failed:', err);
+            });
         } else {
             musicPlayer.pause();
             controlIcon.textContent = '▶';
@@ -304,19 +303,145 @@ function initAudioPlayer() {
     });
 }
 
+// Custom Editorial Cursor
+function initCustomCursor() {
+    // Hide native cursor via JavaScript
+    document.documentElement.style.cursor = 'none';
+    document.body.style.cursor = 'none';
+    
+    // Add cursor: none to all elements
+    const style = document.createElement('style');
+    style.textContent = `
+        *, *::before, *::after {
+            cursor: none !important;
+        }
+    `;
+    document.head.appendChild(style);
+    
+    // Create cursor element
+    const cursor = document.createElement('div');
+    cursor.classList.add('custom-cursor');
+    document.body.appendChild(cursor);
+    
+    let mouseX = 0;
+    let mouseY = 0;
+    let cursorX = 0;
+    let cursorY = 0;
+    let isHovering = false;
+    
+    // Track mouse position
+    document.addEventListener('mousemove', (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+    });
+    
+    // Smooth cursor movement with tighter response
+    function animateCursor() {
+        // Tighter lerp - more responsive, less trailing
+        const ease = 0.25;
+        cursorX += (mouseX - cursorX) * ease;
+        cursorY += (mouseY - cursorY) * ease;
+        
+        cursor.style.left = cursorX + 'px';
+        cursor.style.top = cursorY + 'px';
+        
+        requestAnimationFrame(animateCursor);
+    }
+    animateCursor();
+    
+    // Hover effects on interactive elements
+    const interactiveElements = document.querySelectorAll(
+        'a, button, .stamp-card, .expertise-card, .tag, input, textarea, select, ' +
+        '.audio-control, .form-submit, .cv-button, [role="button"], [onclick]'
+    );
+    
+    interactiveElements.forEach(el => {
+        el.addEventListener('mouseenter', () => {
+            cursor.classList.add('hover');
+            isHovering = true;
+        });
+        
+        el.addEventListener('mouseleave', () => {
+            cursor.classList.remove('hover');
+            isHovering = false;
+        });
+    });
+    
+    // Click effect
+    document.addEventListener('mousedown', () => {
+        cursor.classList.add('click');
+    });
+    
+    document.addEventListener('mouseup', () => {
+        cursor.classList.remove('click');
+    });
+    
+    // Hide cursor when leaving window
+    document.addEventListener('mouseleave', () => {
+        cursor.style.opacity = '0';
+    });
+    
+    document.addEventListener('mouseenter', () => {
+        cursor.style.opacity = '1';
+    });
+}
+
+// Controlled Premium Scrolling - Heavy and Deliberate
+function initSmoothScroll() {
+    // Initialize Lenis with VERY conservative settings
+    const lenis = new Lenis({
+        duration: 1.8,        // Slower scroll duration (higher = slower)
+        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // Smooth easeOut, no bounce
+        direction: 'vertical',
+        gestureDirection: 'vertical',
+        smooth: true,
+        smoothTouch: false,   // Disable on touch devices
+        touchMultiplier: 0,   // No touch momentum
+        infinite: false,
+        lerp: 0.08,          // Tight damping - controlled, not floaty
+    });
+
+    // Animation loop
+    function raf(time) {
+        lenis.raf(time);
+        requestAnimationFrame(raf);
+    }
+    requestAnimationFrame(raf);
+    
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                lenis.scrollTo(target, {
+                    offset: 0,
+                    duration: 1.5,
+                    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t))
+                });
+            }
+        });
+    });
+}
+
 // Initialize all features
 function init() {
     setCurrentDate();
-    initSmoothScroll();
     createReadingProgress();
     addStaggerAnimation();
-    // addExpertiseInteraction(); // REMOVED - cards are now static
-    // typewriterEffect(); // Uncomment for typewriter effect on headline
     addTagInteraction();
     addPrintButton();
     addBackToTop();
     addWordCount();
+    
+    // Initialize audio player first
     initAudioPlayer();
+    
+    // Then initialize cursor
+    initCustomCursor();
+    
+    // Initialize smooth scroll last
+    initSmoothScroll();
     
     // Add fade-in effect to the entire page
     document.body.style.opacity = '0';
