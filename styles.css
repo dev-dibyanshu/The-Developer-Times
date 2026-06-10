@@ -1,5 +1,31 @@
 /* Modern Editorial Typography System */
-@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Playfair+Display+SC:wght@400;700;900&family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,600;1,700&family=Libre+Bodoni:ital,wght@0,400;0,600;0,700;1,400;1,600&family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Crimson+Text:ital,wght@0,400;0,600;1,400;1,600&family=IBM+Plex+Mono:wght@400;500;600&family=Cinzel:wght@400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Playfair+Display+SC:wght@400;700;900&family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,600;1,700&family=Libre+Bodoni:ital,wght@0,400;0,600;0,700;1,400;1,600&family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Crimson+Text:ital,wght@0,400;0,600;1,400;1,600&family=IBM+Plex+Mono:wght@400;500;600&family=Cinzel:wght@400;600;700&family=Libre+Franklin:wght@700;800;900&display=swap');
+
+/* Handshop Typography - Premium Editorial Headlines */
+@font-face {
+    font-family: 'Handshop Typography';
+    src: url('fonts/Fontscafe_HandShopTypography-C30_demo.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* Press Style - Editorial Emphasis Typography */
+@font-face {
+    font-family: 'Press Style';
+    src: url('fonts/PressStyle-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Press Style';
+    src: url('fonts/PressStyle-Italic.ttf') format('truetype');
+    font-weight: normal;
+    font-style: italic;
+    font-display: swap;
+}
 
 /* Reset and Base Styles */
 * {
@@ -215,12 +241,14 @@ body > * {
 }
 
 .title-main {
+    font-family: 'Press Style', 'Bebas Neue', sans-serif;
     font-size: clamp(3.5rem, 10vw, 7rem);
-    font-weight: 400;
-    letter-spacing: clamp(8px, 2vw, 16px);
+    font-weight: normal;
+    letter-spacing: clamp(4px, 0 vw, 12px);
     margin: 0;
     color: #1c1a17;
     white-space: nowrap;
+    line-height: 1;
 }
 
 .title-times {
@@ -336,9 +364,9 @@ body > * {
 }
 
 .headline {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Handshop Typography', serif;
     font-size: clamp(2rem, 5vw, 3.5rem);
-    font-weight: 900;
+    font-weight: 100;
     line-height: 1;
     margin-bottom: 12px;
     text-transform: uppercase;
@@ -350,11 +378,11 @@ body > * {
 }
 
 .headline em {
-    font-family: 'Libre Bodoni', serif;
-    font-style: italic;
+    font-family: 'Handshop Typography', serif;
+    /* font-style: italic; */
     text-transform: none;
     color: #5b3a29;
-    font-weight: 700;
+    font-weight: normal;
 }
 
 .byline {
@@ -741,16 +769,17 @@ body > * {
 }
 
 .experience-title {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Handshop Typography', 'Libre Franklin', 'Franklin Gothic Medium', sans-serif;
     font-size: clamp(1.8rem, 3.5vw, 2.5rem);
-    font-weight: 900;
+    font-weight: normal;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.01em;
     margin-bottom: 6px;
     color: #1c1a17;
     border-bottom: 3px solid #5b3a29;
     padding-bottom: 10px;
     display: inline-block;
+    line-height: 0.9;
 }
 
 .experience-subtitle {
@@ -766,8 +795,9 @@ body > * {
 .experience-records {
     max-width: 1100px;
     margin: 0 auto;
-    border-left: 1px solid rgba(91, 58, 41, 0.15);
-    padding-left: 15px;
+    border-left: 1px solid rgba(91, 58, 41, 0.2);
+    padding-left: 18px;
+    position: relative;
 }
 
 /* Individual Experience Record - Compact 2-Column Layout */
@@ -782,18 +812,6 @@ body > * {
 
 .experience-record:first-child {
     padding-top: 0;
-}
-
-.experience-record::before {
-    content: '';
-    position: absolute;
-    left: -15px;
-    top: 22px;
-    width: 6px;
-    height: 6px;
-    background-color: #7c4b35;
-    border-radius: 50%;
-    opacity: 0.4;
 }
 
 /* Left Sidebar - Archival Metadata */
@@ -955,8 +973,9 @@ body > * {
 /* Subtle Progression Divider */
 .record-divider {
     text-align: center;
-    padding: 12px 0;
+    padding: 18px 0;
     position: relative;
+    margin: 6px 0;
 }
 
 .divider-text {
@@ -964,17 +983,21 @@ body > * {
     font-size: 0.75rem;
     font-style: italic;
     color: #7c4b35;
-    background-color: rgba(237, 228, 211, 0.9);
-    padding: 0 12px;
+    background-color: rgba(237, 228, 211, 1);
+    padding: 6px 16px;
     position: relative;
-    z-index: 1;
+    z-index: 2;
+    display: inline-block;
+    line-height: 1.6;
 }
 
 .divider-ornament {
-    font-size: 0.6rem;
+    font-size: 0.5rem;
     color: #7c4b35;
     opacity: 0.4;
-    margin: 0 6px;
+    margin: 0 10px;
+    vertical-align: middle;
+    display: inline-block;
 }
 
 .record-divider::before {
@@ -991,7 +1014,8 @@ body > * {
         rgba(91, 58, 41, 0.3) 80%,
         transparent
     );
-    z-index: 0;
+    z-index: 1;
+    transform: translateY(-50%);
 }
 
 .experience-footer {
@@ -1028,10 +1052,6 @@ body > * {
         grid-template-columns: 70px 1fr;
         gap: 15px;
         padding: 15px 0;
-    }
-    
-    .experience-record::before {
-        display: none;
     }
     
     .record-sidebar {
@@ -1081,16 +1101,17 @@ body > * {
 }
 
 .section-header {
-    font-family: 'Playfair Display SC', serif;
+    font-family: 'Handshop Typography', 'Playfair Display SC', serif;
     font-size: 1.5rem;
-    font-weight: 700;
+    font-weight: normal;
     text-transform: uppercase;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.05em;
     border-bottom: 3px solid #5b3a29;
     padding-bottom: 10px;
     margin-bottom: 18px;
     text-align: center;
     color: #1c1a17;
+    line-height: 1;
 }
 
 /* Expertise Section - Authentic Stamp Design */
@@ -1109,16 +1130,17 @@ body > * {
 }
 
 .expertise-title {
-    font-family: 'Playfair Display SC', serif;
+    font-family: 'Handshop Typography', 'Libre Franklin', 'Franklin Gothic Medium', sans-serif;
     font-size: clamp(2.5rem, 5vw, 4rem);
-    font-weight: 900;
+    font-weight: normal;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.01em;
     margin-bottom: 10px;
     border-bottom: 4px solid #5b3a29;
     padding-bottom: 15px;
     display: inline-block;
     color: #1c1a17;
+    line-height: 0.9;
 }
 
 .expertise-subtitle {
@@ -1358,11 +1380,6 @@ body > * {
     font-style: normal;
     letter-spacing: 0.5px;
 }
-    color: rgba(0, 0, 0, 0.48);
-    margin-top: 18px;
-    font-style: normal;
-    letter-spacing: 0.5px;
-}
 
 /* Quote Box */
 .quote-box {
@@ -1397,13 +1414,14 @@ body > * {
 }
 
 .section-title {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Handshop Typography', 'Libre Franklin', 'Franklin Gothic Medium', sans-serif;
     font-size: clamp(2.2rem, 4vw, 3.2rem);
-    font-weight: 900;
+    font-weight: normal;
     text-transform: uppercase;
-    letter-spacing: 0.02em;
+    letter-spacing: 0.005em;
     margin-bottom: 5px;
     color: #1c1a17;
+    line-height: 0.9;
 }
 
 .section-subtitle {
@@ -1509,11 +1527,11 @@ body > * {
 }
 
 .project-headline em {
-    font-family: 'Libre Bodoni', serif;
+    font-family: 'Press Style', 'Libre Bodoni', serif;
     font-style: italic;
     text-transform: none;
     color: #7c4b35;
-    font-weight: 700;
+    font-weight: normal;
     letter-spacing: 0;
 }
 
@@ -1604,6 +1622,17 @@ body > * {
     word-break: break-word;
     color: #2a241d;
     line-height: 1.6;
+}
+
+.contact-item p a {
+    color: #5b3a29;
+    text-decoration: none;
+    transition: color 0.2s ease;
+    display: inline-block;
+}
+
+.contact-item p a:hover {
+    color: #3a3027;
 }
 
 /* Updates List */
